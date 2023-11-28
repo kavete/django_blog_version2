@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h4>About</h4>
+                <h4 id="about">About</h4>
                 <p>This website was created with an aim to document my learning progress and share what I learn with
                     other people.The major topics include Arduino and some written art. Some articles about technology
                     and electronics in general are also included.
@@ -15,17 +15,13 @@
                 <ul class="list-unstyled">
 
                     {% for tag in all_tags %}
-                        {% comment %} {% if request.path == '/' %} {% endcomment %}
-                            <li><a href="/tags/{{ tag }}">#{{ tag }}</a></li>
-                        {% comment %} {% elif request.path == 'tags/' %} {% endcomment %}
-                            {% comment %} <li><a href="{{ tag }}">#{{ tag }}</a></li> {% endcomment %}
-                        {% comment %} {% endif %} {% endcomment %}
+                            <li><a href="/tags/{{ tag }}">#{{ tag }}</a></li> 
                     {% endfor %}
                 </ul>
             </div>
             <div class="col-md-3">
                 <h4>Follow us on</h4>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled d-flex align-items-center">
                     <li class="align-items-center"><i class="fab fa-facebook me-1"></i><a href="#">Facebook</a></li>
                 </ul>
             </div>
@@ -33,7 +29,7 @@
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <span class="text-muted">© 2023 Kavete. All rights reserved.</span>
+                <span class="text-muted">©  {% now "Y" %} Kavete. All rights reserved.</span>
             </div>
             <div class="col-md-6 text-md-end">
                 <ul class="list-inline mb-0">

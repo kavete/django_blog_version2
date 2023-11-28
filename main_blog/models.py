@@ -32,7 +32,7 @@ class BlogPost(models.Model):
         upload_to=unique_image_name, null=True, blank=True
     )
     tags = models.ManyToManyField(to=Tag, related_name="posts", blank=True)
-    slug = models.SlugField(default="", null=False)
+    slug = models.SlugField(default="", null=False, unique=True)
     content = RichTextUploadingField(null=False)
 
     def __str__(self):
@@ -41,7 +41,7 @@ class BlogPost(models.Model):
 
 class Subscriber(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100, unique=True, null=False, blank=False)
     date_subscribed = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

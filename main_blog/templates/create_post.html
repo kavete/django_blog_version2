@@ -1,0 +1,36 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block title %}
+  Create or update a post
+{% endblock %}
+
+{% block styles %}
+  <style>
+    .asteriskField {
+      display: none;
+    }
+  </style>
+{% endblock %}
+
+{% block main_scripts %}
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock main_scripts %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-8 card bg-white text-black mt-3 mb-3">
+        <form action="{% url 'create_post' %}" enctype="multipart/form-data" method="post">
+          {% csrf_token %}
+          {{ post_form.media }}
+          {{ post_form|crispy }}<button type="submit" class="btn btn-primary w-25 mb-3">Create Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+CKEDITOR.replace('{{ form.content.id_for_label }}');
+{% endblock scripts %}

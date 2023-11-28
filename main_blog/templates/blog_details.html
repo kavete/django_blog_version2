@@ -29,15 +29,19 @@
                 {% if related_posts %}
                     <h3 class="sidebar-title">Recommended</h3>
                     {# TODO - Add recommended posts #}
-
+                
                     {% for related_post in related_posts %}
                         <a href="/post/{{ related_post.slug }}" class="sidebar-link">
                             <div class="row">
-                                <div class="col-md-4">
+
+                                <div class="col-4">
+                                    {% if related_post.preview_image %}
                                     <img src="{{ related_post.preview_image.url }}" alt="Blog Post Image"
                                          class="img-fluid" style="maximum-width: 400px">
+                                    {% endif %}
                                 </div>
-                                <div class="col-md-8">
+
+                                <div class="col-8">
                                     <p class="sidebar-title">{{ related_post.title }}</p>
                                     <p class="sidebar-meta">{{ related_post.date_published | naturaltime }}</p>
                                 </div>
@@ -51,12 +55,12 @@
                     <h3 class="sidebar-title">Tags</h3>
                     <ul class="list-unstyled">
                         {% for tag in blog_post.tags.all %}
-                            <li><a href="/tags/{{ tag.slug }}" class="sidebar-link">{{ tag.name }}</a></li>
+                            <li><a href="/tags/{{ tag.slug }}" class="sidebar-link">#{{ tag.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
                 <div class="sidebar">
-                    <h3 class="sidebar-title">Random</h3>
+                    <h3 class="sidebar-title">Explore</h3>
                     <ul class="list-unstyled">
                         {% for random_post in random_posts %}
                             <li><a href="/post/{{ random_post.slug }}" class="sidebar-link">{{ random_post.title }}</a></li>

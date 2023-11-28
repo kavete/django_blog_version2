@@ -1,33 +1,39 @@
+{% load static %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
 <header class="p-3 header">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="{% url 'blog_home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <i class="fas fa-code fa-2x me-2"></i>
+                {% comment %} <img src="{% static 'images/logo.png' %}" alt="Logo" width="64px"> {% endcomment %}
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2">Home</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
+                <li><a href="{% url "blog_home" %}" class="nav-link px-2">Home</a></li>
+                <li><a href="#about" class="nav-link px-2">About</a></li>
                 <li><a href="#" class="nav-link px-2">Contact</a></li>
-                <li><a href="#" class="nav-link px-2">Categories</a></li>
+                {% comment %} <li><a href="#" class="nav-link px-2">Categories</a></li> {% endcomment %}
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" method="get"
                   action="{% url 'search' %}"> 
                 <div class="input-group">
                     <input type="search" name="search_word" class="form-control form-control-dark"
-                           placeholder="Search...">
+                           placeholder="Search..." />
 
-                    <a href="#" class="input-group-text text-decoration-none text-dark" type="submit">
+                    <button class="input-group-text text-decoration-none text-dark" type="submit">
                         <i class="fas fa-search"></i>
-                    </a>
+                    </button>
                 </div>
             </form>
             <div class="text-end">
+                {% if not user.is_authenticated %}
                 {#                <button type="button" class="btn btn-outline-light me-2">Login</button>#}
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                         data-bs-target="#subscriptionModal">Subscribe
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -41,18 +47,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                    </div>
+                
+                <form method="post" action="{% url 'subscribe' %}">
+
+                    {% csrf_token %}
+                    {{ subscription_form.as_p }}
+{#                    {{ sub_form.media }}#}
+                    {% comment %} {{ subscription_form.media }} {% endcomment %}
+                   
                     <button type="submit" class="btn btn-warning">Subscribe</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+

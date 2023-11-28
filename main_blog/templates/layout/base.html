@@ -11,9 +11,14 @@
 
     {% endblock %}
 
+    {% block main_scripts %}
+    
+    {% endblock main_scripts %}
+
 </head>
 <body>
 {% include 'partials/header.html'%}
+{% include "partials/alert.html" %}
 {% block content %}
 
 {% endblock %}
@@ -28,17 +33,18 @@
 <script src="{% static 'js/prism.js' %}">
 </script>
 <script>
+    // PrismJs
     // Get all <pre> elements in the document
     let preElements = document.getElementsByTagName('pre');
 
     // Loop through each <pre> element
     for (let i = 0; i < preElements.length; i++) {
-        // Get the first child element of the current <pre> element
+       
         let firstChild = preElements[i].firstElementChild;
 
-        // Check if there is a first child element
+    
         if (firstChild) {
-            // Add the 'highlight' class to the first child element
+            
             firstChild.classList.add('language-c');
         }
     }
