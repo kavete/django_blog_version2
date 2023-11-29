@@ -55,7 +55,7 @@
                     <h3 class="sidebar-title">Tags</h3>
                     <ul class="list-unstyled">
                         {% for tag in blog_post.tags.all %}
-                            <li><a href="/tags/{{ tag.slug }}" class="sidebar-link">#{{ tag.name }}</a></li>
+                            <li><a href="/tag/{{ tag.slug }}" class="sidebar-link">#{{ tag.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

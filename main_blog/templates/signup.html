@@ -1,0 +1,22 @@
+{% extends 'layout/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %}
+    Signup
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 mt-5 mb-5 bg-white rounded-2 p-5 text-black">
+                <h2 class="text-black text-center">Signup</h2>
+                <form action="{% url 'signup' %}" method="post">
+                    {% csrf_token %}
+                    {{ signup_form | crispy }}
+                     <button type="submit" class="btn btn-warning">Signup</button>
+                </form>
+<p class="float-end">Already have an account? <a href="{% url 'signin' %}" class="text-primary">Signin.</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

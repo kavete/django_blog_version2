@@ -1,14 +1,12 @@
-# from django.contrib import messages
-# from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-
-from .forms import SubscriberForm
-# from main_blog.forms import PostForm
-from .models import BlogPost, Tag
+from .forms import SubscriberForm, LoginForm, SignupForm
+from .models import BlogPost, Tag, Subscriber
 from django.db.models import Q
+from .tasks import send_newsletter
 
 
 def blog_home(request):
@@ -23,26 +21,24 @@ def blog_home(request):
 
 
 def search_posts(request):
-    search_word = request.GET["search_word"]
-    if not search_word == "":
-        all_posts = BlogPost.objects.filter(
-            Q(title__icontains=search_word)
-            | Q(author__first_name__icontains=search_word)
-            | Q(author__last_name__icontains=search_word) |
-            Q(content__icontains=search_word)
-        )
-        paginator = Paginator(all_posts, per_page=2)
-        page_number = request.GET.get("page")
-        data = paginator.get_page(page_number)
-        # TODO Use Elastic search instead
-        return render(request, "home.html", {"all_posts": data})
-    else:
-        return redirect("blog_home")
+    search_word = request.GET.get("search_word", "")
+    # if not search_word == "":
+    all_posts = BlogPost.objects.filter(
+        Q(title__icontains=search_word)
+        | Q(author__first_name__icontains=search_word)
+        | Q(author__last_name__icontains=search_word) |
+        Q(content__icontains=search_word)
+    ).distinct()
+    paginator = Paginator(all_posts, per_page=2)
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+    # TODO Use Elastic search instead
+    return render(request, "home.html", {"all_posts": data})
 
 
 def blog_post_detail(request, slug):
     post = BlogPost.objects.get(slug=slug)
-    random_posts = BlogPost.objects.order_by("?")[:5]
+    random_posts = BlogPost.objects.exclude(slug=slug).order_by("?")[:5]
     post_tags = post.tags.all()
     related_posts = (
         BlogPost.objects.filter(tags__in=post_tags).exclude(slug=slug).distinct()[:5]
@@ -57,26 +53,13 @@ def blog_post_detail(request, slug):
 
 def list_posts_by_tag(request, slug):
     tag = Tag.objects.get(slug=slug)
-    posts = BlogPost.objects.filter(tags=tag)
-
-    context = {"all_posts": posts}
+    posts = BlogPost.objects.filter(tags=tag).order_by('?')
+    paginator = Paginator(posts, per_page=2)
+    page_number = request.GET.get("page")
+    data = paginator.get_page(page_number)
+    context = {"all_posts": data}
 
     return render(request, "home.html", context)
-
-
-# @login_required
-# def create_post(request):
-#     if request.method == "POST":
-#         form = PostForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Post Created successfully")
-#         else:
-#             messages.error(request, "Please enter valid values")
-#             return redirect("create_post")
-#     else:
-#         form = PostForm()
-#     return render(request, "create_post.html", {"post_form": form})
 
 
 def subscribe(request):
@@ -89,7 +72,54 @@ def subscribe(request):
         else:
             messages.error(request, "You could not be added to the subscription list")
             return redirect(request.META.get('HTTP_REFERER', 'blog_home'))
-    else:
-        subscription_form = SubscriberForm()
-
     return redirect(request.META.get('HTTP_REFERER', 'blog_home'))
+
+
+def signin(request):
+    if request.method == "GET":
+        form = LoginForm()
+        return render(request, 'login.html', {'login_form': form})
+    elif request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user:
+                login(request, user)
+                messages.success(request, f'You are now logged in as {user.username}')
+                return redirect('blog_home')
+
+            else:
+                messages.error(request, "Wrong username or password")
+                return render(request, 'login.html', {'login_form': form})
+        else:
+            return render(request, 'login.html', {'login_form': form})
+
+
+@login_required
+def signout(request):
+    logout(request)
+    return redirect('signin')
+
+
+def signup(request):
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, f"Successfully signed up as {user.username} ")
+            return redirect('blog_home')
+    else:
+        form = SignupForm()
+    return render(request, 'signup.html', {'signup_form': form})
+
+
+def send_newsletter_view(request):
+    subscribers = Subscriber.objects.all()
+
+    for subscriber in subscribers:
+        send_newsletter.delay(subscriber.email)
+
+    return render(request, 'newsletter_sent.html')

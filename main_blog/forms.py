@@ -1,9 +1,9 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
-from .models import BlogPost, Subscriber
+from .models import Subscriber
 
-
-# from ckeditor.widgets import CKEditorWidget
 
 class SubscriberForm(forms.ModelForm):
     class Meta:
@@ -15,17 +15,12 @@ class SubscriberForm(forms.ModelForm):
         }
 
 
-# class PostForm(forms.ModelForm):
-#     class Meta:
-#         model = BlogPost
-#         fields = ['title', 'author', 'preview_image', 'tags', 'slug', 'content']
-#         # content = forms.CharField(widget=CKEditorWidget())
-#
-#         # widgets = {
-#         #     'title': forms.TextInput(attrs={'class':'form-control mb-3'}),
-#         #     'author': forms.SelectMultiple(attrs={'class': 'mb-3'}),
-#         #     'preview_image': forms.FileInput(attrs={'class': 'mb-3'}),
-#         #     'tags': forms.TextInput(attrs={'class': 'form-control mb-3'}),
-#         #     'slug': forms.TextInput(attrs={'classs': 'form-control mb-3'}),
-#         #     'content': forms.Textarea(attrs={'class': 'form-control mb-3', 'style': 'display:block !important;'},),
-#         # }
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput)
+
+
+class SignupForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']

@@ -5,7 +5,6 @@ admin.site.site_header = "Kavete's Blog"
 admin.site.index_title = "Management"
 
 
-# Register your models here.
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "date_published")
     prepopulated_fields = {"slug": ("title",)}
@@ -26,6 +25,7 @@ admin.site.register(Tag, TagAdmin)
 
 class SubscriberAdmin(admin.ModelAdmin):
     list_display = ['email', 'name']
-    search_fields= ['email', 'name']
+    search_fields = ['email', 'name']
+
 
 admin.site.register(Subscriber, SubscriberAdmin)
