@@ -34,6 +34,7 @@ class BlogPost(models.Model):
     tags = models.ManyToManyField(to=Tag, related_name="posts", blank=True)
     slug = models.SlugField(default="", null=False, unique=True)
     content = RichTextUploadingField(null=False)
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title} by {self.author}"

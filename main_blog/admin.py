@@ -6,8 +6,9 @@ admin.site.index_title = "Management"
 
 
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "date_published")
+    list_display = ("title", "author", "date_published", "featured")
     prepopulated_fields = {"slug": ("title",)}
+    list_filter = ["author", "date_published"]
     search_fields = ("title", "author", "content")
     ordering = ("-date_published",)
 

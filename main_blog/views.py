@@ -10,12 +10,16 @@ from .tasks import send_newsletter
 
 
 def blog_home(request):
-    all_posts = BlogPost.objects.all().order_by("-date_published")
-    paginator = Paginator(all_posts, per_page=2)
-    page_number = request.GET.get("page")
-    data = paginator.get_page(page_number)
+    featured_posts = BlogPost.objects.filter(featured=True).order_by("-date_published")
+    random_posts = BlogPost.objects.order_by("?")[:5]
+    all_posts = BlogPost.objects.all().order_by("-date_published")[:10]
+    # paginator = Paginator(all_posts, per_page=5)
+    # page_number = request.GET.get("page")
+    # data = paginator.get_page(page_number)
     context = {
-        "all_posts": data,
+        "all_posts": all_posts,
+        "featured_posts": featured_posts,
+        "random_posts": random_posts
     }
     return render(request, "home.html", context)
 
@@ -29,7 +33,7 @@ def search_posts(request):
         | Q(author__last_name__icontains=search_word) |
         Q(content__icontains=search_word)
     ).distinct()
-    paginator = Paginator(all_posts, per_page=2)
+    paginator = Paginator(all_posts, per_page=5)
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
     # TODO Use Elastic search instead
@@ -54,10 +58,15 @@ def blog_post_detail(request, slug):
 def list_posts_by_tag(request, slug):
     tag = Tag.objects.get(slug=slug)
     posts = BlogPost.objects.filter(tags=tag).order_by('?')
-    paginator = Paginator(posts, per_page=2)
+    random_posts = BlogPost.objects.order_by("?")[:5]
+    featured_posts = BlogPost.objects.filter(featured=True).order_by("-date_published")
+    paginator = Paginator(posts, per_page=10)
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
-    context = {"all_posts": data}
+    context = {"all_posts": data,
+               "random_posts": random_posts,
+               "featured_posts": featured_posts
+               }
 
     return render(request, "home.html", context)
 
