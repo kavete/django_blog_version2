@@ -1,6 +1,7 @@
 body {
     background-color: #212529;
     color: #fff;
+    padding-top: 56px;
 }
 
 .card {
@@ -66,10 +67,10 @@ a:hover {
     text-decoration: underline;
 }
 
-.fa-facebook {
-    color: darkblue;
-    font-size: 2em;
-}
+/*.fa-facebook {*/
+/*    color: darkblue;*/
+/*    font-size: 2em;*/
+/*}*/
 
 
 .modal-content {
@@ -92,15 +93,29 @@ a:hover {
     border-bottom-right-radius: 10px;
 }
 
- .hero-section .container {
-      background-color: #f8f9fa; /* Light background color */
-      color: #343a40; /* Dark text color */
-      text-align: center;
-      padding: 100px 0; /* Adjust the padding as needed */
-    }
-    .hero-section h1 {
-      font-size: 3em;
-    }
-    .hero-section p {
-      font-size: 1.2em;
-    }
+.hero-section .container {
+    background-color: #f8f9fa; /* Light background color */
+    color: #343a40; /* Dark text color */
+    text-align: center;
+    padding: 100px 0; /* Adjust the padding as needed */
+}
+
+.hero-section h1 {
+    font-size: 3em;
+}
+
+.hero-section p {
+    font-size: 1.2em;
+}
+
+#teensci {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+.navbar {
+    transition: top 0.3s;
+}
+
+.navbar.hidden {
+    top: -56px; /* Adjust this value based on your navbar height */
+}

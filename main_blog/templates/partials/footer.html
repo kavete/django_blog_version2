@@ -15,21 +15,22 @@
                 <ul class="list-unstyled">
 
                     {% for tag in all_tags %}
-                            <li><a href="/tag/{{ tag }}">#{{ tag }}</a></li>
+                        <li><a href="{% url 'tag' tag %}">#{{ tag }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="col-md-3">
                 <h4>Follow us on</h4>
                 <ul class="list-unstyled d-flex align-items-center">
-                    <li class="align-items-center"><i class="fab fa-facebook me-1"></i><a href="#">Facebook</a></li>
+                    <li class="align-items-center"><i class="fab fa-facebook me-1"></i><a
+                            href="https://www.facebook.com/people/Teensci/100064007354896/">Facebook</a></li>
                 </ul>
             </div>
         </div>
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <span class="text-muted">©  {% now "Y" %} Etevak. All rights reserved.</span>
+                <span class="text-muted">©  {% now "Y" %} Teensci. All rights reserved.</span>
             </div>
             <div class="col-md-6 text-md-end">
                 <ul class="list-inline mb-0">

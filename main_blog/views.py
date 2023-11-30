@@ -13,9 +13,6 @@ def blog_home(request):
     featured_posts = BlogPost.objects.filter(featured=True).order_by("-date_published")
     random_posts = BlogPost.objects.order_by("?")[:5]
     all_posts = BlogPost.objects.all().order_by("-date_published")[:10]
-    # paginator = Paginator(all_posts, per_page=5)
-    # page_number = request.GET.get("page")
-    # data = paginator.get_page(page_number)
     context = {
         "all_posts": all_posts,
         "featured_posts": featured_posts,
@@ -36,7 +33,6 @@ def search_posts(request):
     paginator = Paginator(all_posts, per_page=5)
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
-    # TODO Use Elastic search instead
     return render(request, "home.html", {"all_posts": data})
 
 
