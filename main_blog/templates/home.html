@@ -1,7 +1,7 @@
 {% extends 'layout/base.html' %}
 {% load humanize %}
 {% block title %}
-    Home page
+    Teensci
 {% endblock %}
 
 {% block content %}
@@ -20,6 +20,9 @@
         <div class="row align-items-stretch" id="latest-posts">
             {% if all_posts %}
                 <div class="col-md-8">
+
+{#                    	<h1>{{ request.path|slice:"/-1/"|last }}</h1>#}
+
                     <div class="row">
                         {% for latest_post in all_posts %}
                             <div class="col-md-6 mb-4">

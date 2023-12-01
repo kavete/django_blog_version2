@@ -3,14 +3,14 @@ from .models import BlogPost, Subscriber, Tag
 
 #  Admin customizations
 admin.site.site_header = "Teensci"
-admin.site.index_title = "Management"
+admin.site.index_title = "Teensci Applications"
 
 
 # Blogpost model admin customization
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "date_published", "featured")
     prepopulated_fields = {"slug": ("title",)}
-    list_filter = ["author", "date_published"]
+    list_filter = ["author", "date_published", "featured"]
     search_fields = ("title", "author", "content")
     ordering = ("-date_published",)
 
