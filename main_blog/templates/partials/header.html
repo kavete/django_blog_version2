@@ -2,7 +2,7 @@
 {% load static %}
 
     <div class="container">
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded-2 header fixed-top">
+        <nav class="navbar navbar-expand-md header fixed-top navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="javascript:void(0)"><i class="fas fa-microchip fa-2x me-2 text-warning"></i></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
@@ -24,16 +24,19 @@
                             <input type="search" name="search_word" class="form-control form-control-dark"
                                    placeholder="Search..."/>
 
-                            <button class="input-group-text text-decoration-none text-dark" type="submit">
+                            <button class="input-group-text text-decoration-none" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
                     <div class="text-end">
                         {% if not user.is_authenticated %}
-                            <a href="{% url 'signin' %}">
+                            {% if not request.path == "signin" %}
+                            	 <a href="{% url 'signin' %}">
                                 <button type="button" class="btn btn-outline-light m-2">Login</button>
-                            </a>
+                             </a>
+                            {% endif %}
+
 
                             <button type="button" class="btn btn-warning m-2" data-bs-toggle="modal"
                                     data-bs-target="#subscriptionModal">Subscribe

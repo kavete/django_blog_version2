@@ -12,7 +12,7 @@
             <div class="col-md-8">
                 <h1 class="post-title">{{ blog_post.title }}</h1>
                 <p class="post-meta">Written by <a href="#"
-                                                   class="text-decoration-none text-light">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
+                                                   class="text-decoration-none italic">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
                 </p>
                 <hr>
                 <p class="post-meta">Posted {{ blog_post.date_published | naturaltime }}</p>
@@ -20,7 +20,7 @@
                 {% if blog_post.preview_image %}
                     <img src="{{ blog_post.preview_image.url }}" alt="Blog Post Image" class="img-fluid">
                 {% endif %}
-                <div class="post-content">
+                <div class="post-content mb-5">
                     {{ blog_post.content | safe }}
                 </div>
 
@@ -43,6 +43,7 @@
 
                                 </div>
 {% endif %}
+
                                 <div class="col-8">
                                     <p class="sidebar-title">{{ related_post.title }}</p>
                                     <p class="sidebar-meta">{{ related_post.date_published | naturaltime }}</p>

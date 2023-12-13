@@ -16,8 +16,32 @@
         </section>
     {% endif %}
 
+{%  if post_tag %}
+    <div class="container ">
+    <div class="row mt-4 mb-4">
+       <h1>Tag: {{ post_tag  | title }}</h1>
+    </div>
+
+    </div>
+    {% elif search_word %}
+     <div class="container ">
+    <div class="row mt-4 mb-4">
+       <h1>Search word: {{ search_word | title }}</h1>
+    </div>
+
+    </div>
+    {% if not all_posts %}
+        <div class="container">
+            <div class="row">
+            <p class="text-danger">Found Nothing!</p>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
     <div class="container mt-4 mb-4">
+
         <div class="row align-items-stretch" id="latest-posts">
+
             {% if all_posts %}
                 <div class="col-md-8">
 
@@ -26,7 +50,7 @@
                     <div class="row">
                         {% for latest_post in all_posts %}
                             <div class="col-md-6 mb-4">
-                                <div class="card mb-4 h-100 d-flex flex-column">
+                                <div class="card mb-4 h-100 d-flex flex-column shadow">
 
                                     {% if latest_post.preview_image %}
                                         <div class="d-flex justify-content-center flex-grow-1 overflow-hidden">
@@ -39,7 +63,7 @@
                                     <div class="card-body d-flex flex-column">
                                         <div class="d-flex align-items-center mb-3">
                                             <div>
-                                                <h6 class="m-0 text-black">
+                                                <h6 class="m-0">
                                                     By {{ latest_post.author.first_name }} {{ latest_post.author.last_name }}
                                                 </h6>
                                                 <p class="text-muted m-0">
@@ -116,7 +140,7 @@
             {% endif %}
         </div>
     </div>
-    {% if all_posts.number %}
+    {% if all_posts.number and all_posts.has_next or all_posts.has_previous %}
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
 

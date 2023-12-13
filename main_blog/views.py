@@ -30,10 +30,14 @@ def search_posts(request):
         | Q(author__last_name__icontains=search_word) |
         Q(content__icontains=search_word)
     ).distinct()
-    paginator = Paginator(all_posts, per_page=5)
+    paginator = Paginator(all_posts, per_page=10)
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
-    return render(request, "home.html", {"all_posts": data})
+    context = {
+        "all_posts": data,
+        "search_word": search_word
+    }
+    return render(request, "home.html", context)
 
 
 def blog_post_detail(request, slug):
@@ -60,6 +64,7 @@ def list_posts_by_tag(request, slug):
     page_number = request.GET.get("page")
     data = paginator.get_page(page_number)
     context = {"all_posts": data,
+               "post_tag": tag,
                "random_posts": random_posts,
                "featured_posts": featured_posts
                }
@@ -70,9 +75,15 @@ def list_posts_by_tag(request, slug):
 def subscribe(request):
     if request.method == "POST":
         form = SubscriberForm(request.POST)
+        user_email = request.POST.get("email")
+        email_exist = Subscriber.objects.filter(email=user_email)
+        print(email_exist)
         if form.is_valid():
             form.save()
             messages.success(request, "Thank you for subscribing")
+            return redirect(request.META.get('HTTP_REFERER', 'blog_home'))
+        elif email_exist:
+            messages.error(request, "A user with this email already exists")
             return redirect(request.META.get('HTTP_REFERER', 'blog_home'))
         else:
             messages.error(request, "You could not be added to the subscription list")

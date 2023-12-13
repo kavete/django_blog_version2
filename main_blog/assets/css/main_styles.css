@@ -1,69 +1,70 @@
-body {
-    background-color: #212529;
-    color: #fff;
-    padding-top: 56px;
-}
+/*body {*/
+/*    background-color: #212529;*/
+/*    color: #fff;*/
+/*    padding-top: 56px;*/
+/*}*/
 
-.card {
-    color: #000;
-}
+/*.card {*/
+/*    color: #000;*/
+/*}*/
 
-.header {
-    background-color: #343a40;
-}
+/*.header {*/
+/*    background-color: #343a40;*/
+/*}*/
 
-.header .nav-link {
-    color: #fff;
-}
+/*.header .nav-link {*/
+/*    color: #fff;*/
+/*}*/
 
-.header .nav-link:hover {
-    color: #ffc107;
-}
+/*.header .nav-link:hover {*/
+/*    color: #ffc107;*/
+/*}*/
 
-.post-title {
-    color: #fff;
-}
+/*.post-title {*/
+/*    color: #fff;*/
+/*}*/
 
-.post-meta {
-    color: #6c757d;
-}
+/*.post-meta {*/
+/*    color: #6c757d;*/
+/*}*/
 
-.post-content {
-    color: #fff;
-}
+/*.post-content {*/
+/*    color: #fff;*/
+/*}*/
 
-.post-content a {
-    color: #ffc107;
-}
+/*.post-content a {*/
+/*    color: #d5b40f;*/
+/*}*/
 
-.post-content a:hover {
-    color: #fff;
-}
+/*.post-content a:hover {*/
+/*    color: #3f3604;*/
 
-.sidebar-title {
-    color: #fff;
-}
+/*}*/
 
-.sidebar-link {
-    color: #fff;
-}
+/*.sidebar-title {*/
+/*    color: #fff;*/
+/*}*/
 
-.sidebar-link:hover {
-    color: #ffc107;
-}
+/*.sidebar-link {*/
+/*    color: #fff;*/
+/*}*/
 
-.footer {
-    background-color: #343a40;
-    color: #fff;
-}
+/*.sidebar-link:hover {*/
+/*    color: #ffc107;*/
+/*}*/
+
+/*.footer {*/
+/*    background-color: #343a40;*/
+/*    color: #fff;*/
+/*}*/
 
 a {
-    color: lightgreen;
+    color: #0d690d;
     text-decoration: none;
 }
 
 a:hover {
-    color: #ffc107;
+    color: #b4932f;
     text-decoration: underline;
 }
 
@@ -118,4 +119,8 @@ a:hover {
 
 .navbar.hidden {
     top: -56px; /* Adjust this value based on your navbar height */
+}
+
+body {
+    padding-top: 56px ;
 }
